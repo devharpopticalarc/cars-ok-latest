@@ -1,0 +1,126 @@
+[{
+  "_id": {
+    "$oid": "646f4e4ca2004c2e1dd350ea"
+  },
+  "brand": "Maruti",
+  "model": "Maruti Suzuki Alto 800",
+  "fuelType": "Petrol",
+  "bodyType": "Sedan",
+  "transmission": "Manual",
+  "price": "500000",
+  "color": "Red",
+  "year": "2019",
+  "engineSize": "0.8L",
+  "horsepower": "47 hp",
+  "seatingCapacity": 5,
+  "mileage": "22 km/l",
+  "wheelDrive": "Front-Wheel Drive",
+  "features": [
+    "Air Conditioning",
+    "Power Windows",
+    "Navigation System"
+  ],
+  "safetyRating": "4 out of 5",
+  "vin": "1234567890",
+  "chassisNumber": "ABC123XYZ456"
+},{
+  "_id": {
+    "$oid": "646f5070a2004c2e1dd350eb"
+  },
+  "brand": "Honda",
+  "model": "Honda Civic",
+  "fuelType": "Petrol",
+  "bodyType": "Sedan",
+  "transmission": "Automatic",
+  "price": "800000",
+  "color": "White",
+  "year": "2020",
+  "engineSize": "1.5L",
+  "horsepower": "174 hp",
+  "seatingCapacity": 5,
+  "mileage": "18 km/l",
+  "wheelDrive": "Front-Wheel Drive",
+  "features": [
+    "Sunroof",
+    "Leather Seats",
+    "Apple CarPlay"
+  ],
+  "safetyRating": "5 out of 5",
+  "vin": "0987654321",
+  "chassisNumber": "XYZ456ABC123"
+},{
+  "_id": {
+    "$oid": "646f5091a2004c2e1dd350ec"
+  },
+  "brand": "Toyota",
+  "model": "Toyota Camry",
+  "fuelType": "Hybrid",
+  "bodyType": "Sedan",
+  "transmission": "Automatic",
+  "price": "1200000",
+  "color": "Silver",
+  "year": "2021",
+  "engineSize": "2.5L",
+  "horsepower": "208 hp",
+  "seatingCapacity": 5,
+  "mileage": "26 km/l",
+  "wheelDrive": "Front-Wheel Drive",
+  "features": [
+    "Adaptive Cruise Control",
+    "Blind Spot Monitoring",
+    "Wireless Charging"
+  ],
+  "safetyRating": "5 out of 5",
+  "vin": "5432109876",
+  "chassisNumber": "DEF789GHI321"
+},{
+  "_id": {
+    "$oid": "646f50b2a2004c2e1dd350ed"
+  },
+  "brand": "Ford",
+  "model": "Ford Mustang",
+  "fuelType": "Petrol",
+  "bodyType": "Coupe",
+  "transmission": "Automatic",
+  "price": "1500000",
+  "color": "Black",
+  "year": "2022",
+  "engineSize": "5.0L",
+  "horsepower": "450 hp",
+  "seatingCapacity": 4,
+  "mileage": "12 km/l",
+  "wheelDrive": "Rear-Wheel Drive",
+  "features": [
+    "Brembo Brakes",
+    "Heated Seats",
+    "Apple CarPlay"
+  ],
+  "safetyRating": "4 out of 5",
+  "vin": "4567890123",
+  "chassisNumber": "GHI321DEF789"
+},{
+  "_id": {
+    "$oid": "646f50d4a2004c2e1dd350ee"
+  },
+  "brand": "BMW",
+  "model": "BMW X5",
+  "fuelType": "Diesel",
+  "bodyType": "SUV",
+  "transmission": "Automatic",
+  "price": "2000000",
+  "color": "Blue",
+  "year": "2020",
+  "engineSize": "3.0L",
+  "horsepower": "265 hp",
+  "seatingCapacity": 5,
+  "mileage": "15 km/l",
+  "wheelDrive": "All-Wheel Drive",
+  "features": [
+    "Panoramic Sunroof",
+    "Heated Steering Wheel",
+    "Wireless Charging"
+  ],
+  "safetyRating": "5 out of 5",
+  "vin": "3210987654",
+  "chassisNumber": "JKL987MNO654"
+}]
