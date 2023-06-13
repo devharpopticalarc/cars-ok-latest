@@ -19,7 +19,8 @@ const App: React.FC = () => {
         <Route index element={<HomePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<RegisterPage />} />
-        <Route path="/reset-password" element={<ForgotPasswordPage />} />
+        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+        <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/cars" element={<CarsPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
@@ -100,6 +101,29 @@ function RegisterPage(): JSX.Element {
 }
 
 function ForgotPasswordPage(): JSX.Element {
+  
+  function submitForgotForm(event: FormEvent<HTMLFormElement>): void {
+      event.preventDefault();
+
+      const email = (event.currentTarget.querySelector('input[name="email"]') as HTMLInputElement).value;
+
+      if (!email) return
+
+
+  }
+  
+  return (
+  <div>
+    <form onSubmit={submitForgotForm}>
+      <h2>Forgot Password</h2>
+      <input type="email" placeholder="email" name="email" />
+      <input type="submit" value="Reset Password" />
+    </form>
+  </div>
+  );
+}
+
+function ResetPasswordPage(): JSX.Element {
 
   const location = useLocation();
   const tokenRef = useRef<string | null>(null);
@@ -119,9 +143,9 @@ function ForgotPasswordPage(): JSX.Element {
 
     if (!password || !confirmPassword || ( password != confirmPassword )) return;
 
-    new UserService().forgotPassword({ token: tokenRef.current, password })
+    new UserService().resetPassword({ token: tokenRef.current, password })
     
-    // event.currentTarget.reset();
+    event.currentTarget.reset();
   }
   
   return (
