@@ -248,7 +248,7 @@ function CarsPage(): JSX.Element {
         <div onClick={disableModalClose} style={{ backgroundColor: 'white', overflowY: 'scroll', padding: '1em 5em', display: 'flex', flexDirection: 'column' }}>
           <h2>Car Details</h2>
           <div>
-            <img className='mb-1' src="https://hips.hearstapps.com/amv-prod-cad-assets.s3.amazonaws.com/wp-content/uploads/2017/03/2018-Bugatti-Chiron-119.jpg?crop=1xw:1xh;center,center&resize=480:*" alt="Avatar" style={{ width: '100%', maxWidth: '15em' }} />
+            <img className='mb-1' src={car.img} alt="Avatar" style={{ width: '100%', maxWidth: '15em' }} />
             <p><span>Brand:</span> {car.brand || 'Not Available'}</p>
             <p><span>Model:</span> {car.model || 'Not Available'}</p>
             <p><span>Fuel Type:</span> {car.fuelType || 'Not Available'}</p>
@@ -296,11 +296,11 @@ function CarsPage(): JSX.Element {
     <>
       {visibleCarDetails && <CarDetailsModal modalClose={modalClose} car={cars.filter(e => e._id.$oid === selectedCarId)[0]} />}
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-        <DropDownMenu value={carFilterValues[CarFilterValues.BRAND]} onChange={(event) => onDropDownChange(event, CarFilterValues.BRAND)} menuLabel={CarFilterLabels.BRAND} options={[ { value: ALL, text: ALL }, ...cars.map(value => value.brand).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
+        <DropDownMenu value={carFilterValues[CarFilterValues.BRAND]} onChange={(event) => onDropDownChange(event, CarFilterValues.BRAND)} menuLabel={CarFilterLabels.BRAND} options={[ { value: ALL, text: ALL }, ...cars$.map(value => value.brand).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
         <DropDownMenu value={carFilterValues[CarFilterValues.MODEL]} onChange={(event) => onDropDownChange(event, CarFilterValues.MODEL)} menuLabel={CarFilterLabels.MODEL} options={[ { value: ALL, text: ALL }, ...cars.map(value => value.model).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
         <DropDownMenu value={carFilterValues[CarFilterValues.COLOR]} onChange={(event) => onDropDownChange(event, CarFilterValues.COLOR)} menuLabel={CarFilterLabels.COLOR} options={[ { value: ALL, text: ALL }, ...cars.map(value => value.color).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
         <DropDownMenu value={carFilterValues[CarFilterValues.FUEL_TYPE]} onChange={(event) => onDropDownChange(event, CarFilterValues.FUEL_TYPE)} menuLabel={CarFilterLabels.FUEL_TYPE} options={[ { value: ALL, text: ALL }, ...cars.map(value => value.fuelType).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />       
-        <DropDownMenu value={carFilterValues[CarFilterValues.HORSE_POWER]} onChange={(event) => onDropDownChange(event, CarFilterValues.HORSE_POWER)} menuLabel={CarFilterLabels.HORSE_POWER} options={[ { value: ALL, text: ALL }, ...cars.map(car => ({ value: car.horsepower, text: car.horsepower }))]} />       
+        <DropDownMenu value={carFilterValues[CarFilterValues.HORSE_POWER]} onChange={(event) => onDropDownChange(event, CarFilterValues.HORSE_POWER)} menuLabel={CarFilterLabels.HORSE_POWER} options={[ { value: ALL, text: ALL }, ...cars.map(car => ({ value: car.horsepower, text: car.horsepower }))]} />     
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
         {
@@ -310,6 +310,7 @@ function CarsPage(): JSX.Element {
               model={e.model}
               price={e.price}
               id={e._id.$oid}
+              img={e.img}
             ></Car>
           })
         }
@@ -318,7 +319,7 @@ function CarsPage(): JSX.Element {
   );
 }
 
-function Car({ onViewDetailsClick, model, price, id }: { onViewDetailsClick: (id: string) => void, model: string, price: string, id: string }) {
+function Car({ onViewDetailsClick, model, price, id, img }: { onViewDetailsClick: (id: string) => void, model: string, price: string, id: string, img: string }) {
 
   function Star() {
     return <svg height="22" width="20" style={{ marginRight: '0.3em' }} data-rating="5">
@@ -327,7 +328,10 @@ function Car({ onViewDetailsClick, model, price, id }: { onViewDetailsClick: (id
   }
   return (
     <div style={{ margin: '1em', display: 'flex', flexDirection: 'column', width: 'max-content', boxShadow: '0 0 8px 1px rgb(150, 150, 150)' }}>
-      <img className='mb-1' src="https://hips.hearstapps.com/amv-prod-cad-assets.s3.amazonaws.com/wp-content/uploads/2017/03/2018-Bugatti-Chiron-119.jpg?crop=1xw:1xh;center,center&resize=480:*" alt="Avatar" style={{ width: '100%', maxWidth: '15em' }} />
+      {/* <img className='mb-1' src="https://hips.hearstapps.com/amv-prod-cad-assets.s3.amazonaws.com/wp-content/uploads/2017/03/2018-Bugatti-Chiron-119.jpg?crop=1xw:1xh;center,center&resize=480:*" alt="Avatar" style={{ width: '100%', maxWidth: '15em' }} /> */}
+      <div style={{ display: 'flex', height: '12em', width: '15em', alignItems: 'center', overflow: 'hidden' }}>
+        <img src={img} alt="Avatar" style={{ width: '100%', maxWidth: '15em' }} />
+      </div>
       <div style={{ padding: '0.5em' }}>
         <div style={{ marginBottom: '0.5em', fontSize: '1.5em', fontWeight: '700', overflow: 'hidden', width: '8em', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{model}</div>
         <div style={{ marginBottom: '0.5em' }}>
