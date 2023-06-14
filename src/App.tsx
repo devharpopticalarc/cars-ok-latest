@@ -10,6 +10,7 @@ import { UserService } from './services/user.service';
 import Select from 'react-select';
 import DropDownMenu, { optionType } from './components/DropDownMenu';
 import { CommonUtilities } from './utils/common.utils';
+import { CarFilterLabels, CarFilterValues } from './constants/car-filter.enum';
 
 
 
@@ -162,18 +163,64 @@ function ResetPasswordPage(): JSX.Element {
 
 function CarsPage(): JSX.Element {
 
-  const filtersLabels = { brand: 'Brand', model: 'Model', color: 'Color', fuelType: 'Fuel Type', horsePower: 'Horse Power' }
+  const ALL = 'All';
+  interface DefaultCarFilterValuesType {
+    [CarFilterValues.BRAND]: string,
+    [CarFilterValues.MODEL]: string,
+    [CarFilterValues.COLOR]: string,
+    [CarFilterValues.FUEL_TYPE]: string,
+    [CarFilterValues.HORSE_POWER]: string,
+  }
+
+  const defaultCarFilterValues: DefaultCarFilterValuesType = {
+    [CarFilterValues.BRAND]: ALL,
+    [CarFilterValues.MODEL]: ALL,
+    [CarFilterValues.COLOR]: ALL,
+    [CarFilterValues.FUEL_TYPE]: ALL,
+    [CarFilterValues.HORSE_POWER]: ALL,
+  }
 
   const [visibleCarDetails, setVisibleCarDetails] = useState<boolean>(false);
   const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
   const [cars, setCars] = useState(cars$);
+  const [carFilterValues, setCarFilterValues] = useState<DefaultCarFilterValuesType>(defaultCarFilterValues);
 
   useEffect(() => {
     console.log(cars.map(car => ({ value: car.fuelType, text: car.fuelType })))
   }, []);
 
+  useEffect(() => {
+    // Object.keys(carFilterValues).map((key: any) => {
+    //   if (carFilterValues[key] !== ALL){
+    //     const c = cars$.filter((car: any) => (car[key] === carFilterValues[key]));
+    //     console.log(c)
+    //   }
+    //   else {
+
+    //   }
+    // });
+
+    let cars00: any
+    cars00 = cars$.filter((car) => carFilterValues[CarFilterValues.BRAND] !== ALL ? carFilterValues[CarFilterValues.BRAND] === car.brand : true )
+    cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.MODEL] !== ALL ? carFilterValues[CarFilterValues.MODEL] === car.model : true )
+    cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.COLOR] !== ALL ? carFilterValues[CarFilterValues.COLOR] === car.color : true )
+    cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.FUEL_TYPE] !== ALL ? carFilterValues[CarFilterValues.FUEL_TYPE] === car.fuelType : true )
+    cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.HORSE_POWER] !== ALL ? carFilterValues[CarFilterValues.HORSE_POWER] === car.horsepower : true )
+    // console.log(cars00);
+    setCars(cars => cars00);
+  }, [carFilterValues]);
+
   function onDropDownChange(event: ChangeEvent<HTMLSelectElement>, filterLabel: string) {
-    console.log({ event, value: event.currentTarget.value, filterLabel });
+    const value = event.currentTarget.value;
+    // console.log({ event, value, filterLabel });
+
+
+    // setCars((cars:any) => cars.filter((e: any) => (e[filterLabel] === value)))
+    setCarFilterValues((selectedFilterLabels: any) => {
+      return { ...selectedFilterLabels, [filterLabel]: value };
+    })
+
+    // console.log(carFilterValues);
     
   }
 
@@ -249,11 +296,11 @@ function CarsPage(): JSX.Element {
     <>
       {visibleCarDetails && <CarDetailsModal modalClose={modalClose} car={cars.filter(e => e._id.$oid === selectedCarId)[0]} />}
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-        <DropDownMenu onChange={(event) => onDropDownChange(event, filtersLabels.brand)} menuLabel={filtersLabels.brand} options={[ { value: 'All', text: 'All' }, ...cars.map(car => ({ value: car.brand, text: car.brand }))]} />       
-        <DropDownMenu onChange={(event) => onDropDownChange(event, filtersLabels.model)} menuLabel={filtersLabels.model} options={[ { value: 'All', text: 'All' }, ...cars.map(car => ({ value: car.model, text: car.model }))]} />       
-        <DropDownMenu onChange={(event) => onDropDownChange(event, filtersLabels.color)} menuLabel={filtersLabels.color} options={[ { value: 'All', text: 'All' }, ...cars.map(car => ({ value: car.color, text: car.color }))]} />       
-        <DropDownMenu onChange={(event) => onDropDownChange(event, filtersLabels.fuelType)} menuLabel={filtersLabels.fuelType} options={[ { value: 'All', text: 'All' }, ...cars.map(value => value.fuelType).filter((value, index, self) => self.indexOf(value) === index).map(fuelType => ({ value: fuelType, text: fuelType }))]} />       
-        <DropDownMenu onChange={(event) => onDropDownChange(event, filtersLabels.horsePower)} menuLabel={filtersLabels.horsePower} options={[ { value: 'All', text: 'All' }, ...cars.map(car => ({ value: car.horsepower, text: car.horsepower }))]} />       
+        <DropDownMenu value={carFilterValues[CarFilterValues.BRAND]} onChange={(event) => onDropDownChange(event, CarFilterValues.BRAND)} menuLabel={CarFilterLabels.BRAND} options={[ { value: ALL, text: ALL }, ...cars.map(value => value.brand).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
+        <DropDownMenu value={carFilterValues[CarFilterValues.MODEL]} onChange={(event) => onDropDownChange(event, CarFilterValues.MODEL)} menuLabel={CarFilterLabels.MODEL} options={[ { value: ALL, text: ALL }, ...cars.map(value => value.model).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
+        <DropDownMenu value={carFilterValues[CarFilterValues.COLOR]} onChange={(event) => onDropDownChange(event, CarFilterValues.COLOR)} menuLabel={CarFilterLabels.COLOR} options={[ { value: ALL, text: ALL }, ...cars.map(value => value.color).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
+        <DropDownMenu value={carFilterValues[CarFilterValues.FUEL_TYPE]} onChange={(event) => onDropDownChange(event, CarFilterValues.FUEL_TYPE)} menuLabel={CarFilterLabels.FUEL_TYPE} options={[ { value: ALL, text: ALL }, ...cars.map(value => value.fuelType).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />       
+        <DropDownMenu value={carFilterValues[CarFilterValues.HORSE_POWER]} onChange={(event) => onDropDownChange(event, CarFilterValues.HORSE_POWER)} menuLabel={CarFilterLabels.HORSE_POWER} options={[ { value: ALL, text: ALL }, ...cars.map(car => ({ value: car.horsepower, text: car.horsepower }))]} />       
       </div>
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
         {

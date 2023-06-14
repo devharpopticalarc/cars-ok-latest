@@ -8,13 +8,14 @@ export interface optionType {
 export interface DropDownMenuType {
   menuLabel: string,
   options: Array<optionType>,
-  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void
+  onChange?: (event: ChangeEvent<HTMLSelectElement>) => void,
+  value: string
 }
-export default function DropDownMenu({ menuLabel, options, onChange }: DropDownMenuType) {
+export default function DropDownMenu({ menuLabel, options, onChange, value }: DropDownMenuType) {
   return (
     <div>
       <label>{menuLabel}:&nbsp;</label>
-      <select onChange={onChange}>
+      <select onChange={onChange} value={value} >
         { options.map((option: optionType) => <option key={CommonUtilities.randomHexString(20)} value={option.value}>{option.text}</option> ) }
       </select>
     </div>
