@@ -1,16 +1,17 @@
-import React, { FormEvent, useEffect, useRef, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from 'react';
 import { BrowserRouter, Route, Routes, useLocation } from 'react-router-dom';
 import './App.css';
 import { AppHttpService } from './services/app-http.service';
 import { SERVER_API } from './constants/server-api.enum';
 import { HttpStatusCode } from 'axios';
-import cars from './assets/cars.json'
+import cars$ from './assets/cars.json'
 import { CarDealService } from './services/car-deal.service';
 import { UserService } from './services/user.service';
+import Select from 'react-select';
+import DropDownMenu, { optionType } from './components/DropDownMenu';
+import { CommonUtilities } from './utils/common.utils';
 
-function randomHexString(len: number): string {
-  return [...Array(len)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
-}
+
 
 const App: React.FC = () => {
   return (
@@ -101,25 +102,25 @@ function RegisterPage(): JSX.Element {
 }
 
 function ForgotPasswordPage(): JSX.Element {
-  
+
   function submitForgotForm(event: FormEvent<HTMLFormElement>): void {
-      event.preventDefault();
+    event.preventDefault();
 
-      const email = (event.currentTarget.querySelector('input[name="email"]') as HTMLInputElement).value;
+    const email = (event.currentTarget.querySelector('input[name="email"]') as HTMLInputElement).value;
 
-      if (!email) return
+    if (!email) return
 
 
   }
-  
+
   return (
-  <div>
-    <form onSubmit={submitForgotForm}>
-      <h2>Forgot Password</h2>
-      <input type="email" placeholder="email" name="email" />
-      <input type="submit" value="Reset Password" />
-    </form>
-  </div>
+    <div>
+      <form onSubmit={submitForgotForm}>
+        <h2>Forgot Password</h2>
+        <input type="email" placeholder="email" name="email" />
+        <input type="submit" value="Reset Password" />
+      </form>
+    </div>
   );
 }
 
@@ -127,7 +128,7 @@ function ResetPasswordPage(): JSX.Element {
 
   const location = useLocation();
   const tokenRef = useRef<string | null>(null);
-  
+
   useEffect(() => {
     const token = new URLSearchParams(location.search).get('token');
     if (token) tokenRef.current = token;
@@ -136,33 +137,45 @@ function ResetPasswordPage(): JSX.Element {
       tokenRef.current = null;
     };
   }, [location]);
-  
+
   function submitPassword(event: FormEvent<HTMLFormElement>): void {
     event.preventDefault();
     const [password, confirmPassword] = [(event.currentTarget.querySelector('input[name="password"]') as HTMLInputElement).value, (event.currentTarget.querySelector('input[name="confirm-password"]') as HTMLInputElement).value]
 
-    if (!password || !confirmPassword || ( password != confirmPassword )) return;
+    if (!password || !confirmPassword || (password != confirmPassword)) return;
 
     new UserService().resetPassword({ token: tokenRef.current, password })
-    
+
     event.currentTarget.reset();
   }
-  
+
   return (
-  <div style={{ marginTop: '5em', display: 'flex', justifyContent: 'center' }}>
-    <form onSubmit={submitPassword} style={{ display: 'flex', flexDirection: 'column', maxWidth: '15em' }} >
-      <h2 className='mb-1'>Reset Password</h2>
-      <input className='mb-1' type='password' name='password' placeholder='new password' required={true} />
-      <input className='mb-1' type='password' name='confirm-password' placeholder='confirm password' required={true} />
-      <input className='mb-1' type='submit' value='set password' />
-    </form>
-  </div>)
+    <div style={{ marginTop: '5em', display: 'flex', justifyContent: 'center' }}>
+      <form onSubmit={submitPassword} style={{ display: 'flex', flexDirection: 'column', maxWidth: '15em' }} >
+        <h2 className='mb-1'>Reset Password</h2>
+        <input className='mb-1' type='password' name='password' placeholder='new password' required={true} />
+        <input className='mb-1' type='password' name='confirm-password' placeholder='confirm password' required={true} />
+        <input className='mb-1' type='submit' value='set password' />
+      </form>
+    </div>)
 }
 
 function CarsPage(): JSX.Element {
 
+  const filtersLabels = { brand: 'Brand', model: 'Model', color: 'Color', fuelType: 'Fuel Type', horsePower: 'Horse Power' }
+
   const [visibleCarDetails, setVisibleCarDetails] = useState<boolean>(false);
   const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
+  const [cars, setCars] = useState(cars$);
+
+  useEffect(() => {
+    console.log(cars.map(car => ({ value: car.fuelType, text: car.fuelType })))
+  }, []);
+
+  function onDropDownChange(event: ChangeEvent<HTMLSelectElement>, filterLabel: string) {
+    console.log({ event, value: event.currentTarget.value, filterLabel });
+    
+  }
 
   function showCarDetails(id: string) {
     console.log(id);
@@ -178,7 +191,7 @@ function CarsPage(): JSX.Element {
     function disableModalClose(event: any) {
       event.stopPropagation()
     }
-  
+
     function contactDealer() {
       // const carDealService = new CarDealService();
       // carDealService.notifyAdmin({ carId: 'sdfsffsdf', dealerId: 'sdsadasd' });
@@ -190,7 +203,7 @@ function CarsPage(): JSX.Element {
           <div>
             <img className='mb-1' src="https://hips.hearstapps.com/amv-prod-cad-assets.s3.amazonaws.com/wp-content/uploads/2017/03/2018-Bugatti-Chiron-119.jpg?crop=1xw:1xh;center,center&resize=480:*" alt="Avatar" style={{ width: '100%', maxWidth: '15em' }} />
             <p><span>Brand:</span> {car.brand || 'Not Available'}</p>
-            <p><span>Model:</span> {car.model|| 'Not Available'}</p>
+            <p><span>Model:</span> {car.model || 'Not Available'}</p>
             <p><span>Fuel Type:</span> {car.fuelType || 'Not Available'}</p>
             <p><span>Body Type:</span> {car.bodyType || 'Not Available'}</p>
             <p><span>Transmission:</span> {car.transmission || 'Not Available'}</p>
@@ -208,7 +221,7 @@ function CarsPage(): JSX.Element {
             <ul>
               {
                 car.features.map((e: string) => {
-                  return <li key={randomHexString(10)}>{e}</li>
+                  return <li key={CommonUtilities.randomHexString(10)}>{e}</li>
                 })
               }
               {/* <li>Air Conditioning</li>
@@ -236,16 +249,16 @@ function CarsPage(): JSX.Element {
     <>
       {visibleCarDetails && <CarDetailsModal modalClose={modalClose} car={cars.filter(e => e._id.$oid === selectedCarId)[0]} />}
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
-        {/* <Car onViewDetailsClick={showCarDetails} />
-        <Car onViewDetailsClick={showCarDetails} />
-        <Car onViewDetailsClick={showCarDetails} />
-        <Car onViewDetailsClick={showCarDetails} />
-        <Car onViewDetailsClick={showCarDetails} />
-        <Car onViewDetailsClick={showCarDetails} />
-        <Car onViewDetailsClick={showCarDetails} /> */}
+        <DropDownMenu onChange={(event) => onDropDownChange(event, filtersLabels.brand)} menuLabel={filtersLabels.brand} options={[ { value: 'All', text: 'All' }, ...cars.map(car => ({ value: car.brand, text: car.brand }))]} />       
+        <DropDownMenu onChange={(event) => onDropDownChange(event, filtersLabels.model)} menuLabel={filtersLabels.model} options={[ { value: 'All', text: 'All' }, ...cars.map(car => ({ value: car.model, text: car.model }))]} />       
+        <DropDownMenu onChange={(event) => onDropDownChange(event, filtersLabels.color)} menuLabel={filtersLabels.color} options={[ { value: 'All', text: 'All' }, ...cars.map(car => ({ value: car.color, text: car.color }))]} />       
+        <DropDownMenu onChange={(event) => onDropDownChange(event, filtersLabels.fuelType)} menuLabel={filtersLabels.fuelType} options={[ { value: 'All', text: 'All' }, ...cars.map(value => value.fuelType).filter((value, index, self) => self.indexOf(value) === index).map(fuelType => ({ value: fuelType, text: fuelType }))]} />       
+        <DropDownMenu onChange={(event) => onDropDownChange(event, filtersLabels.horsePower)} menuLabel={filtersLabels.horsePower} options={[ { value: 'All', text: 'All' }, ...cars.map(car => ({ value: car.horsepower, text: car.horsepower }))]} />       
+      </div>
+      <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
         {
           cars.map((e) => {
-            return <Car key={randomHexString(20)}
+            return <Car key={CommonUtilities.randomHexString(20)}
               onViewDetailsClick={showCarDetails}
               model={e.model}
               price={e.price}
