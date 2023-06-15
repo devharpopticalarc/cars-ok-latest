@@ -310,14 +310,17 @@ function CarsPage(): JSX.Element {
         <DropDownMenu value={carFilterValues[CarFilterValues.COLOR]} onChange={(event) => onDropDownChange(event, CarFilterValues.COLOR)} menuLabel={CarFilterLabels.COLOR} options={[{ value: ALL, text: ALL }, ...cars.map(value => value.color).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
         <DropDownMenu value={carFilterValues[CarFilterValues.FUEL_TYPE]} onChange={(event) => onDropDownChange(event, CarFilterValues.FUEL_TYPE)} menuLabel={CarFilterLabels.FUEL_TYPE} options={[{ value: ALL, text: ALL }, ...cars.map(value => value.fuelType).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
         <DropDownMenu value={carFilterValues[CarFilterValues.HORSE_POWER]} onChange={(event) => onDropDownChange(event, CarFilterValues.HORSE_POWER)} menuLabel={CarFilterLabels.HORSE_POWER} options={[{ value: ALL, text: ALL }, ...cars.map(car => ({ value: car.horsepower, text: car.horsepower }))]} />
-        <div>
+        <div className='hidden00'>
           <label>Price: </label>
           <input
+            className='border border-black'
             type="number"
             placeholder="Min Price"
-            style={{ width: '5em', marginRight: '1em' }}
-            />
+            style={{ width: '5em' }}
+          />
+          <span className='mx-2'>-</span>
           <input
+            className='border border-black'
             type="number"
             placeholder="Max Price"
             style={{ width: '5em' }}
