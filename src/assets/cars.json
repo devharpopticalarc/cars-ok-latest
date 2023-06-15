@@ -24,7 +24,8 @@
     "safetyRating": "4 out of 5",
     "vin": "1234567890",
     "chassisNumber": "ABC123XYZ456",
-    "img": "https://stimg.cardekho.com/images/car-images/large/Maruti/Maruti-Alto-800/5209/Blazingred_ca312c.jpg?impolicy=resize&imwidth=420"
+    "img": "https://stimg.cardekho.com/images/car-images/large/Maruti/Maruti-Alto-800/5209/Blazingred_ca312c.jpg?impolicy=resize&imwidth=420",
+    "location": "Brooklyn"
   },
   {
     "_id": {
@@ -51,7 +52,8 @@
     "safetyRating": "5 out of 5",
     "vin": "0987654321",
     "chassisNumber": "XYZ456ABC123",
-    "img": "https://imgd.aeplcdn.com/1056x594/n/0jlabsa_1459844.jpg?wm=1"
+    "img": "https://imgd.aeplcdn.com/1056x594/n/0jlabsa_1459844.jpg?wm=1",
+    "location": "Boston"
   },
   {
     "_id": {
@@ -78,7 +80,8 @@
     "safetyRating": "5 out of 5",
     "vin": "5432109876",
     "chassisNumber": "DEF789GHI321",
-    "img": "https://imgd.aeplcdn.com/1056x594/n/gr5kpua_1557413.jpg?wm=1"
+    "img": "https://imgd.aeplcdn.com/1056x594/n/gr5kpua_1557413.jpg?wm=1",
+    "location": "New York"
   },
   {
     "_id": {
@@ -105,7 +108,8 @@
     "safetyRating": "4 out of 5",
     "vin": "4567890123",
     "chassisNumber": "GHI321DEF789",
-    "img": "https://stimg.cardekho.com/images/car-images/930x620/Ford/Ford-Mustang/3835/ford-mustang-absolute-black_1a1a1a.jpg?tr=w-898"
+    "img": "https://stimg.cardekho.com/images/car-images/930x620/Ford/Ford-Mustang/3835/ford-mustang-absolute-black_1a1a1a.jpg?tr=w-898",
+    "location": "San Antonio"
   },
   {
     "_id": {
@@ -132,7 +136,8 @@
     "safetyRating": "5 out of 5",
     "vin": "3210987654",
     "chassisNumber": "JKL987MNO654",
-    "img": "https://imgd.aeplcdn.com/1056x594/n/davvesa_1463399.jpg?wm=1"
+    "img": "https://imgd.aeplcdn.com/1056x594/n/davvesa_1463399.jpg?wm=1",
+    "location": "Chicago"
   },
   {
     "_id": {
@@ -159,6 +164,7 @@
     "safetyRating": "4 out of 5",
     "vin": "1234567890",
     "chassisNumber": "ABC123XYZ456",
-    "img": "https://imgd-ct.aeplcdn.com/1056x660/n/vjruesa_1463332.jpg?q=75"
+    "img": "https://imgd-ct.aeplcdn.com/1056x660/n/vjruesa_1463332.jpg?q=75",
+    "location": "Dallas"
   }
 ]

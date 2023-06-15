@@ -170,6 +170,8 @@ function CarsPage(): JSX.Element {
     [CarFilterValues.COLOR]: string,
     [CarFilterValues.FUEL_TYPE]: string,
     [CarFilterValues.HORSE_POWER]: string,
+    [CarFilterValues.PRICE]: { min: string | number, max: string | number },
+    [CarFilterValues.LOCATION]: string,
   }
 
   const defaultCarFilterValues: DefaultCarFilterValuesType = {
@@ -178,8 +180,11 @@ function CarsPage(): JSX.Element {
     [CarFilterValues.COLOR]: ALL,
     [CarFilterValues.FUEL_TYPE]: ALL,
     [CarFilterValues.HORSE_POWER]: ALL,
+    [CarFilterValues.PRICE]: { min: '', max: '' },
+    [CarFilterValues.LOCATION]: ALL,
   }
-
+  
+  const [priceRange, setPriceRange] = useState<{ min: string | number, max: string | number }>({ min: '', max: '' });
   const [visibleCarDetails, setVisibleCarDetails] = useState<boolean>(false);
   const [selectedCarId, setSelectedCarId] = useState<string | null>(null);
   const [cars, setCars] = useState(cars$);
@@ -200,22 +205,26 @@ function CarsPage(): JSX.Element {
     //   }
     // });
 
-    let cars00: any
+    let cars00: any;
     cars00 = cars$.filter((car) => carFilterValues[CarFilterValues.BRAND] !== ALL ? carFilterValues[CarFilterValues.BRAND] === car.brand : true)
     cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.MODEL] !== ALL ? carFilterValues[CarFilterValues.MODEL] === car.model : true)
     cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.COLOR] !== ALL ? carFilterValues[CarFilterValues.COLOR] === car.color : true)
     cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.FUEL_TYPE] !== ALL ? carFilterValues[CarFilterValues.FUEL_TYPE] === car.fuelType : true)
     cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.HORSE_POWER] !== ALL ? carFilterValues[CarFilterValues.HORSE_POWER] === car.horsepower : true)
-    // console.log(cars00);
+    cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.LOCATION] !== ALL ? carFilterValues[CarFilterValues.LOCATION] === car.location : true)
+    
+    cars00 = cars00.filter((car: any) =>  ((priceRange.min !== '') && (priceRange.max !== '')) ? CommonUtilities.isInRange(Number(car.price), Number(priceRange.min), Number(priceRange.max)) : true);
+    
     setCars(cars => cars00);
-  }, [carFilterValues]);
+  }, [carFilterValues, priceRange]);
+
+  function onPriceRangeChange(event: ChangeEvent<HTMLInputElement>, type: string): void {
+    const value: string | number = event.target.value.toString() === '' ? '' : Number(event.target.value);
+    setPriceRange(e => ({ ...e, [type]: value.toString() }))
+  }
 
   function onDropDownChange(event: ChangeEvent<HTMLSelectElement>, filterLabel: string) {
     const value = event.currentTarget.value;
-    // console.log({ event, value, filterLabel });
-
-
-    // setCars((cars:any) => cars.filter((e: any) => (e[filterLabel] === value)))
     const newValues: Record<string, string> = { [filterLabel]: value };
 
     if (filterLabel === CarFilterValues.BRAND) {
@@ -228,8 +237,6 @@ function CarsPage(): JSX.Element {
     setCarFilterValues((selectedFilterLabels: any) => {
       return { ...selectedFilterLabels, ...newValues };
     })
-
-    // console.log(carFilterValues);
 
   }
 
@@ -307,14 +314,17 @@ function CarsPage(): JSX.Element {
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
         <DropDownMenu value={carFilterValues[CarFilterValues.BRAND]} onChange={(event) => onDropDownChange(event, CarFilterValues.BRAND)} menuLabel={CarFilterLabels.BRAND} options={[{ value: ALL, text: ALL }, ...cars$.map(value => value.brand).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
         <DropDownMenu value={carFilterValues[CarFilterValues.MODEL]} onChange={(event) => onDropDownChange(event, CarFilterValues.MODEL)} menuLabel={CarFilterLabels.MODEL} options={[{ value: ALL, text: ALL }, ...cars.map(value => value.model).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
-        <DropDownMenu value={carFilterValues[CarFilterValues.COLOR]} onChange={(event) => onDropDownChange(event, CarFilterValues.COLOR)} menuLabel={CarFilterLabels.COLOR} options={[{ value: ALL, text: ALL }, ...cars.map(value => value.color).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
-        <DropDownMenu value={carFilterValues[CarFilterValues.FUEL_TYPE]} onChange={(event) => onDropDownChange(event, CarFilterValues.FUEL_TYPE)} menuLabel={CarFilterLabels.FUEL_TYPE} options={[{ value: ALL, text: ALL }, ...cars.map(value => value.fuelType).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
-        <DropDownMenu value={carFilterValues[CarFilterValues.HORSE_POWER]} onChange={(event) => onDropDownChange(event, CarFilterValues.HORSE_POWER)} menuLabel={CarFilterLabels.HORSE_POWER} options={[{ value: ALL, text: ALL }, ...cars.map(car => ({ value: car.horsepower, text: car.horsepower }))]} />
-        <div className='hidden00'>
+        <DropDownMenu value={carFilterValues[CarFilterValues.COLOR]} onChange={(event) => onDropDownChange(event, CarFilterValues.COLOR)} menuLabel={CarFilterLabels.COLOR} options={[{ value: ALL, text: ALL }, ...cars$.map(value => value.color).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
+        <DropDownMenu value={carFilterValues[CarFilterValues.FUEL_TYPE]} onChange={(event) => onDropDownChange(event, CarFilterValues.FUEL_TYPE)} menuLabel={CarFilterLabels.FUEL_TYPE} options={[{ value: ALL, text: ALL }, ...cars$.map(value => value.fuelType).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
+        <DropDownMenu value={carFilterValues[CarFilterValues.HORSE_POWER]} onChange={(event) => onDropDownChange(event, CarFilterValues.HORSE_POWER)} menuLabel={CarFilterLabels.HORSE_POWER} options={[{ value: ALL, text: ALL }, ...cars$.map(value => value.horsepower).filter((value, index, self) => self.indexOf(value) === index).map(value => ({ value: value, text: value }))]} />
+        <DropDownMenu value={carFilterValues[CarFilterValues.LOCATION]} onChange={(event) => onDropDownChange(event, CarFilterValues.LOCATION)} menuLabel={CarFilterLabels.LOCATION} options={[{ value: ALL, text: ALL }, ...cars$.map(car => ({ value: car.location, text: car.location }))]} />
+        <div>
           <label>Price: </label>
           <input
             className='border border-black'
             type="number"
+            value={priceRange.min}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => onPriceRangeChange(event, 'min')}
             placeholder="Min Price"
             style={{ width: '5em' }}
           />
@@ -322,6 +332,8 @@ function CarsPage(): JSX.Element {
           <input
             className='border border-black'
             type="number"
+            value={priceRange.max}
+            onChange={(event: ChangeEvent<HTMLInputElement>) => onPriceRangeChange(event, 'max')}
             placeholder="Max Price"
             style={{ width: '5em' }}
           />
@@ -359,7 +371,7 @@ function Car({ onViewDetailsClick, model, price, id, img }: { onViewDetailsClick
       </div>
       <div style={{ padding: '0.5em' }}>
         <div style={{ marginBottom: '0.5em', fontSize: '1.5em', fontWeight: '700', overflow: 'hidden', width: '8em', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{model}</div>
-        <div style={{ marginBottom: '0.5em' }}>
+        <div className='flex' style={{ marginBottom: '0.5em' }}>
           <Star />
           <Star />
           <Star />

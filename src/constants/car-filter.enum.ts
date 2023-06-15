@@ -4,6 +4,8 @@ export enum CarFilterValues {
   COLOR = "color",
   FUEL_TYPE = 'fuelType',
   HORSE_POWER = 'horsepower',
+  PRICE = 'price',
+  LOCATION= "location"
 }
 
 export enum CarFilterLabels {
@@ -12,4 +14,6 @@ export enum CarFilterLabels {
   COLOR = "Color",
   FUEL_TYPE = 'Fuel Type',
   HORSE_POWER = 'Horse Power',
+  PRICE = 'Price',
+  LOCATION = 'Location'
 }
