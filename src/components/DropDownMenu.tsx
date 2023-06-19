@@ -9,13 +9,14 @@ export interface DropDownMenuType {
   menuLabel: string,
   options: Array<optionType>,
   onChange?: (event: ChangeEvent<HTMLSelectElement>) => void,
-  value: string
+  value: string,
+  className?: string,
 }
-export default function DropDownMenu({ menuLabel, options, onChange, value }: DropDownMenuType) {
+export default function DropDownMenu({ menuLabel, options, onChange, value, className }: DropDownMenuType) {
   return (
-    <div>
+    <div className={className}>
       <label>{menuLabel}:&nbsp;</label>
-      <select className='border border-black mb-2' onChange={onChange} value={value} >
+      <select className='border border-black mb-2 w-full' onChange={onChange} value={value} >
         { options.map((option: optionType) => <option key={CommonUtilities.randomHexString(20)} value={option.value}>{option.text}</option> ) }
       </select>
     </div>
