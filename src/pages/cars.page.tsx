@@ -41,16 +41,22 @@ export default function CarsPage(): JSX.Element {
   }, []);
 
   useEffect(() => {
-    // Object.keys(carFilterValues).map((key: any) => {
-    //   if (carFilterValues[key] !== ALL){
-    //     const c = cars$.filter((car: any) => (car[key] === carFilterValues[key]));
-    //     console.log(c)
-    //   }
-    //   else {
 
-    //   }
-    // });
+    // let cars00: any;
+    // cars00 = cars$.filter((car) => carFilterValues[CarFilterValues.BRAND] !== ALL ? carFilterValues[CarFilterValues.BRAND] === car.brand : true)
+    // cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.MODEL] !== ALL ? carFilterValues[CarFilterValues.MODEL] === car.model : true)
+    // cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.COLOR] !== ALL ? carFilterValues[CarFilterValues.COLOR] === car.color : true)
+    // cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.FUEL_TYPE] !== ALL ? carFilterValues[CarFilterValues.FUEL_TYPE] === car.fuelType : true)
+    // cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.HORSE_POWER] !== ALL ? carFilterValues[CarFilterValues.HORSE_POWER] === car.horsepower : true)
+    // cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.LOCATION] !== ALL ? carFilterValues[CarFilterValues.LOCATION] === car.location : true)
 
+    // cars00 = cars00.filter((car: any) => ((priceRange.min !== '') && (priceRange.max !== '')) ? CommonUtilities.isInRange(Number(car.price), Number(priceRange.min), Number(priceRange.max)) : true);
+
+    // setCars(cars => cars00);
+  }, [carFilterValues, priceRange]);
+
+  function filterCars() {
+    console.log('herhehrher');
     let cars00: any;
     cars00 = cars$.filter((car) => carFilterValues[CarFilterValues.BRAND] !== ALL ? carFilterValues[CarFilterValues.BRAND] === car.brand : true)
     cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.MODEL] !== ALL ? carFilterValues[CarFilterValues.MODEL] === car.model : true)
@@ -62,7 +68,16 @@ export default function CarsPage(): JSX.Element {
     cars00 = cars00.filter((car: any) => ((priceRange.min !== '') && (priceRange.max !== '')) ? CommonUtilities.isInRange(Number(car.price), Number(priceRange.min), Number(priceRange.max)) : true);
 
     setCars(cars => cars00);
-  }, [carFilterValues, priceRange]);
+  }
+
+  function resetCars() {
+    setCarFilterValues((selectedFilterLabels: any) => {
+      return defaultCarFilterValues;
+    });
+    
+    setCars(cars => cars$);
+
+  }
 
   function onPriceRangeChange(event: ChangeEvent<HTMLInputElement>, type: string): void {
     const value: string | number = event.target.value.toString() === '' ? '' : Number(event.target.value);
@@ -127,6 +142,10 @@ export default function CarsPage(): JSX.Element {
                   placeholder="Max Price"
                 /></div></div>
             </div>
+            <div>
+              <button onClick={filterCars} className="mr-3 px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 focus:bg-blue-600">Search</button>
+              <button onClick={resetCars} className="px-4 py-2 bg-blue-500 text-white rounded-md shadow hover:bg-blue-600 focus:bg-blue-600">Reset</button>
+            </div>
           </div>
         </div>
 
@@ -154,7 +173,7 @@ export default function CarsPage(): JSX.Element {
   );
 }
 
-function Car$({onViewDetailsClick, fuelType, transmission, horsepower, model, price, img, location, year}: any) {
+function Car$({ onViewDetailsClick, fuelType, transmission, horsepower, model, price, img, location, year }: any) {
   return (
     <>
       <div className="overflow-hidden border border-slate-300 rounded-md p-[0.75em] m-[0.5em]">
