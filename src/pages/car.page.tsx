@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import cars$ from '../assets/cars.json';
+import { CarDealService } from "../services/car-deal.service";
 
 export default function CarPage() {
   const defaultCar = {
@@ -35,11 +36,16 @@ export default function CarPage() {
 
   const [car, setCar] = useState<any>(defaultCar);
 
+  function contactDealer() {
+    // const carDealService = new CarDealService();
+    // carDealService.notifyAdmin({ carId: 'sdfsffsdf', dealerId: 'sdsadasd' });
+  }
+
   useEffect(() => {
     const id = new URLSearchParams(window.location.search).get('id'); if (!id) return;
-    const car = cars$.filter(e => e._id.$oid === id)[0];
-    console.log({ car });
-    setCar((e: any) => car);
+    const car = cars$.filter(e => e._id.$oid === id);
+    if (!car.length) return; 
+    setCar((e: any) => car[0]);
   }, []);
   return (
     <div className="container mx-auto p-4">
@@ -72,6 +78,9 @@ export default function CarPage() {
                 ))}
               </ul>
             </div>
+          </div>
+          <div className="flex justify-center">
+            <button className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded">Contact Dealer</button>
           </div>
         </div>
       </div>
