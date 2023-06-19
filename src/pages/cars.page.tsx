@@ -6,6 +6,7 @@ import DropDownMenu from "../components/DropDownMenu";
 import CarDetailsModal from "../components/car-details.modal";
 import cars$ from '../assets/cars.json';
 import './cars.css';
+import { useNavigate } from "react-router-dom";
 
 export default function CarsPage(): JSX.Element {
 
@@ -36,27 +37,15 @@ export default function CarsPage(): JSX.Element {
   const [cars, setCars] = useState(cars$);
   const [carFilterValues, setCarFilterValues] = useState<DefaultCarFilterValuesType>(defaultCarFilterValues);
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     console.log(cars.map(car => ({ value: car.fuelType, text: car.fuelType })))
   }, []);
 
-  useEffect(() => {
-
-    // let cars00: any;
-    // cars00 = cars$.filter((car) => carFilterValues[CarFilterValues.BRAND] !== ALL ? carFilterValues[CarFilterValues.BRAND] === car.brand : true)
-    // cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.MODEL] !== ALL ? carFilterValues[CarFilterValues.MODEL] === car.model : true)
-    // cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.COLOR] !== ALL ? carFilterValues[CarFilterValues.COLOR] === car.color : true)
-    // cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.FUEL_TYPE] !== ALL ? carFilterValues[CarFilterValues.FUEL_TYPE] === car.fuelType : true)
-    // cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.HORSE_POWER] !== ALL ? carFilterValues[CarFilterValues.HORSE_POWER] === car.horsepower : true)
-    // cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.LOCATION] !== ALL ? carFilterValues[CarFilterValues.LOCATION] === car.location : true)
-
-    // cars00 = cars00.filter((car: any) => ((priceRange.min !== '') && (priceRange.max !== '')) ? CommonUtilities.isInRange(Number(car.price), Number(priceRange.min), Number(priceRange.max)) : true);
-
-    // setCars(cars => cars00);
-  }, [carFilterValues, priceRange]);
+  // useEffect(() => {}, [carFilterValues, priceRange]);
 
   function filterCars() {
-    console.log('herhehrher');
     let cars00: any;
     cars00 = cars$.filter((car) => carFilterValues[CarFilterValues.BRAND] !== ALL ? carFilterValues[CarFilterValues.BRAND] === car.brand : true)
     cars00 = cars00.filter((car: any) => carFilterValues[CarFilterValues.MODEL] !== ALL ? carFilterValues[CarFilterValues.MODEL] === car.model : true)
@@ -74,9 +63,7 @@ export default function CarsPage(): JSX.Element {
     setCarFilterValues((selectedFilterLabels: any) => {
       return defaultCarFilterValues;
     });
-    
     setCars(cars => cars$);
-
   }
 
   function onPriceRangeChange(event: ChangeEvent<HTMLInputElement>, type: string): void {
@@ -103,8 +90,9 @@ export default function CarsPage(): JSX.Element {
 
   function showCarDetails(id: string) {
     console.log(id);
-    setSelectedCarId(e => id);
-    setVisibleCarDetails(e => true);
+    // setSelectedCarId(e => id);
+    // setVisibleCarDetails(e => true);
+    navigate('/car?id=' + id);
   }
 
   function modalClose() {
@@ -151,7 +139,7 @@ export default function CarsPage(): JSX.Element {
 
         <div className="w-[100%]">
           {
-            cars.map((e) => <Car$ key={CommonUtilities.randomHexString(20)} fuelType={e.fuelType} horsepower={e.horsepower} transmission={e.transmission} year={e.year} model={e.model} price={e.price} img={e.img} location={e.location} />)
+            cars.map((e) => <Car$ key={CommonUtilities.randomHexString(20)} id={e._id.$oid} onViewDetailsClick={showCarDetails} fuelType={e.fuelType} horsepower={e.horsepower} transmission={e.transmission} year={e.year} model={e.model} price={e.price} img={e.img} location={e.location} />)
           }
         </div>
 
@@ -173,7 +161,7 @@ export default function CarsPage(): JSX.Element {
   );
 }
 
-function Car$({ onViewDetailsClick, fuelType, transmission, horsepower, model, price, img, location, year }: any) {
+function Car$({ onViewDetailsClick, fuelType, transmission, horsepower, model, price, img, location, year, id }: any) {
   return (
     <>
       <div className="overflow-hidden border border-slate-300 rounded-md p-[0.75em] m-[0.5em]">
@@ -205,7 +193,7 @@ function Car$({ onViewDetailsClick, fuelType, transmission, horsepower, model, p
           <div className="flex flex-row sm:flex-col justify-between sm:justify-start p-4">
             <div className="" style={{ fontSize: '1.5em', fontWeight: 700 }}>${price}</div>
             {/* <div className="px-2 py-1" style={{ fontSize: '0.85em', background: '#5dc302', color: 'white', borderRadius: '5px', textTransform: 'uppercase', fontWeight: '600' }}>View Details<i className="ms-1 fa fa-arrow-circle-right" aria-hidden="true"></i></div> */}
-            <div className="transform hover:scale-[1.025] hover:bg-gray-50 transition duration-[200ms] px-2 py-1 bg-gray-100 shadow-inner rounded-md p-4 font-semibold select-none cursor-pointer" style={{ boxShadow: '5px 5px 5px 0px #bebebe, -5px -5px 5px 0px #ffffff' }}><span className="mr-[0.5em]">View Details</span><i className="ms-1 fa fa-arrow-circle-right" aria-hidden="true"></i></div>
+            <div onClick={() => onViewDetailsClick(id)} className="transform hover:scale-[1.025] hover:bg-gray-50 transition duration-[200ms] px-2 py-1 bg-gray-100 shadow-inner rounded-md p-4 font-semibold select-none cursor-pointer" style={{ boxShadow: '5px 5px 5px 0px #bebebe, -5px -5px 5px 0px #ffffff' }}><span className="mr-[0.5em]">View Details</span><i className="ms-1 fa fa-arrow-circle-right" aria-hidden="true"></i></div>
 
           </div>
         </div>

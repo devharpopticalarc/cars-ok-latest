@@ -8,6 +8,7 @@ import RegisterPage from './pages/register.page';
 import ResetPasswordPage from './pages/reset-password.page';
 import CarsPage from './pages/cars.page';
 import NotFound from './pages/not-found.page';
+import CarPage from './pages/car.page';
 
 
 
@@ -21,6 +22,7 @@ const App: React.FC = () => {
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password" element={<ResetPasswordPage />} />
         <Route path="/cars" element={<CarsPage />} />
+        <Route path="/car" element={<CarPage />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
