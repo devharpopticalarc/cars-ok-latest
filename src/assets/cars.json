@@ -166,5 +166,36 @@
     "chassisNumber": "ABC123XYZ456",
     "img": "https://imgd-ct.aeplcdn.com/1056x660/n/vjruesa_1463332.jpg?q=75",
     "location": "Dallas"
+  },
+  {
+    "_id": {
+      "$oid": "646f5091a2004c2e1dd35eec"
+    },
+    "brand": "Lamborghini",
+    "model": "Aventador",
+    "fuelType": "Petrol",
+    "bodyType": "Coupe",
+    "transmission": "Automatic",
+    "price": "1,500,000",
+    "color": "Blue",
+    "year": "2019",
+    "engineSize": "6.5L",
+    "horsepower": "700 hp",
+    "seatingCapacity": 2,
+    "mileage": "8 km/l",
+    "wheelDrive": "All-Wheel Drive",
+    "features": [
+      "Adaptive Suspension",
+      "Carbon Ceramic Brakes",
+      "Leather Upholstery",
+      "Apple CarPlay",
+      "Android Auto"
+    ],
+    "safetyRating": "4 out of 5",
+    "vin": "1234567890",
+    "chassisNumber": "ABC123DEF456",
+    "img": "https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_gw/aventador/2023/02_09_refresh/aven_gate_s_01_m.jpg",
+    "location": "Los Angeles"
   }
+  
 ]

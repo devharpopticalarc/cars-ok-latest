@@ -131,40 +131,9 @@ export default function CarsPage(): JSX.Element {
         </div>
 
         <div className="w-[100%]">
-          <div className="overflow-hidden border border-slate-300 rounded-md p-[0.75em] m-[0.5em]">
-            <div className="flex flex-col sm:flex-row borde rounded-md overflow-hidden">
-              <div className="flex position-relative" style={{ backgroundColor: 'black' }}>
-                <div className="ribbon_3"><span>Featured</span></div>
-                <div className="flex items-center justify-center">
-                  <img className="w-full sm:w-[8em]" src="https://www.lamborghini.com/sites/it-en/files/DAM/lamborghini/facelift_2019/model_gw/aventador/2023/02_09_refresh/aven_gate_s_01_m.jpg" />
-                </div>
-              </div>
-              <div className="ml-0 sm:ml-[2em]" style={{ height: '7em', backgroundColor: 'white', flexGrow: 1 }}>
-                <div style={{ fontSize: '1.2em', fontWeight: 600, color: '#555', marginBottom: '0.25em' }}>2019 Lamborghini Aventador</div>
-                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <div className="me-2" style={{ fontSize: '0.9em' }}><i className="fa fa-calendar" style={{ color: '#5dc302' }} aria-hidden="true"></i><span>2014</span></div>
-                  <div className="me-2" style={{ fontSize: '0.9em' }}><i className="fa fa-tachometer" style={{ color: '#5dc302' }}
-                    aria-hidden="true"></i> <span>38,000 km</span></div>
-                  <div className="me-2" style={{ fontSize: '0.9em' }}><i className="fa fa-map-marker" style={{ color: '#5dc302' }}
-                    aria-hidden="true"></i> <span>New York</span></div>
-                </div>
-                <div className="flex">
-                  <div className="pe-2" style={{ borderRight: '1px solid #ddd' }}><span style={{ color: '#555', fontSize: '0.8em' }}>Petrol</span></div>
-                  <div className="px-2 me-2" style={{ borderRight: '1px solid #ddd' }}><span style={{ color: '#555', fontSize: '0.8em' }}>1300cc</span></div>
-                  <div><span style={{ color: '#555', fontSize: '0.8em' }}>Automatic</span></div>
-                </div>
-                <div>
-                  <div><span style={{ color: '#555', fontSize: '0.8em' }}>Last Updated: 1 day ago</span></div>
-                </div>
-              </div>
-              <div className="flex flex-row sm:flex-col justify-between sm:justify-start p-4">
-                <div className="" style={{ fontSize: '1.5em', fontWeight: 700 }}>$456.00</div>
-                {/* <div className="px-2 py-1" style={{ fontSize: '0.85em', background: '#5dc302', color: 'white', borderRadius: '5px', textTransform: 'uppercase', fontWeight: '600' }}>View Details<i className="ms-1 fa fa-arrow-circle-right" aria-hidden="true"></i></div> */}
-                <div className="transform hover:scale-[1.025] hover:bg-gray-50 transition duration-[200ms] px-2 py-1 bg-gray-100 shadow-inner rounded-md p-4 font-semibold select-none cursor-pointer" style={{ boxShadow: '5px 5px 5px 0px #bebebe, -5px -5px 5px 0px #ffffff' }}><span className="mr-[0.5em]">View Details</span><i className="ms-1 fa fa-arrow-circle-right" aria-hidden="true"></i></div>
-              
-              </div>
-            </div>
-          </div>
+          {
+            cars.map((e) => <Car$ key={CommonUtilities.randomHexString(20)} fuelType={e.fuelType} horsepower={e.horsepower} transmission={e.transmission} year={e.year} model={e.model} price={e.price} img={e.img} location={e.location} />)
+          }
         </div>
 
         {/* <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-around' }}>
@@ -183,4 +152,44 @@ export default function CarsPage(): JSX.Element {
       </div>
     </>
   );
+}
+
+function Car$({onViewDetailsClick, fuelType, transmission, horsepower, model, price, img, location, year}: any) {
+  return (
+    <>
+      <div className="overflow-hidden border border-slate-300 rounded-md p-[0.75em] m-[0.5em]">
+        <div className="flex flex-col sm:flex-row borde rounded-md overflow-hidden">
+          <div className="flex position-relative" style={{ backgroundColor: 'black' }}>
+            <div className="ribbon_3"><span>Featured</span></div>
+            <div className="flex items-center justify-center">
+              <img className="w-full sm:w-[8em]" src={img} />
+            </div>
+          </div>
+          <div className="ml-0 sm:ml-[2em]" style={{ height: '7em', backgroundColor: 'white', flexGrow: 1 }}>
+            <div style={{ fontSize: '1.2em', fontWeight: 600, color: '#555', marginBottom: '0.25em' }}>{model}</div>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <div className="me-2" style={{ fontSize: '0.9em' }}><i className="fa fa-calendar" style={{ color: '#5dc302' }} aria-hidden="true"></i><span>{year}</span></div>
+              <div className="me-2" style={{ fontSize: '0.9em' }}><i className="fa fa-tachometer" style={{ color: '#5dc302' }}
+                aria-hidden="true"></i> <span>38,000 km</span></div>
+              <div className="me-2" style={{ fontSize: '0.9em' }}><i className="fa fa-map-marker" style={{ color: '#5dc302' }}
+                aria-hidden="true"></i> <span>{location}</span></div>
+            </div>
+            <div className="flex">
+              <div className="pe-2" style={{ borderRight: '1px solid #ddd' }}><span style={{ color: '#555', fontSize: '0.8em' }}>{fuelType}</span></div>
+              <div className="px-2 me-2" style={{ borderRight: '1px solid #ddd' }}><span style={{ color: '#555', fontSize: '0.8em' }}>{horsepower}</span></div>
+              <div><span style={{ color: '#555', fontSize: '0.8em' }}>{transmission}</span></div>
+            </div>
+            <div>
+              <div><span style={{ color: '#555', fontSize: '0.8em' }}>Last Updated: 1 day ago</span></div>
+            </div>
+          </div>
+          <div className="flex flex-row sm:flex-col justify-between sm:justify-start p-4">
+            <div className="" style={{ fontSize: '1.5em', fontWeight: 700 }}>${price}</div>
+            {/* <div className="px-2 py-1" style={{ fontSize: '0.85em', background: '#5dc302', color: 'white', borderRadius: '5px', textTransform: 'uppercase', fontWeight: '600' }}>View Details<i className="ms-1 fa fa-arrow-circle-right" aria-hidden="true"></i></div> */}
+            <div className="transform hover:scale-[1.025] hover:bg-gray-50 transition duration-[200ms] px-2 py-1 bg-gray-100 shadow-inner rounded-md p-4 font-semibold select-none cursor-pointer" style={{ boxShadow: '5px 5px 5px 0px #bebebe, -5px -5px 5px 0px #ffffff' }}><span className="mr-[0.5em]">View Details</span><i className="ms-1 fa fa-arrow-circle-right" aria-hidden="true"></i></div>
+
+          </div>
+        </div>
+      </div>
+    </>);
 }
