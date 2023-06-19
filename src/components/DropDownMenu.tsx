@@ -16,7 +16,7 @@ export default function DropDownMenu({ menuLabel, options, onChange, value, clas
   return (
     <div className={className}>
       <label>{menuLabel}:&nbsp;</label>
-      <select className='border border-black mb-2 w-full' onChange={onChange} value={value} >
+      <select className='border border-slate-300 mb-2 w-full' onChange={onChange} value={value} >
         { options.map((option: optionType) => <option key={CommonUtilities.randomHexString(20)} value={option.value}>{option.text}</option> ) }
       </select>
     </div>

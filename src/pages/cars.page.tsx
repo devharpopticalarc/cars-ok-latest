@@ -113,14 +113,14 @@ export default function CarsPage(): JSX.Element {
               <div className="flex flex-col sm:flex-row">
                 <div className="w-full md:w-1/2 sm:pr-[1em] flex mb-[1em]">
                   <input
-                    className='w-full border border-black'
+                    className='w-full border border-slate-300'
                     type="number"
                     value={priceRange.min}
                     onChange={(event: ChangeEvent<HTMLInputElement>) => onPriceRangeChange(event, 'min')}
                     placeholder="Min Price"
                   /></div>
                 <div className="w-full md:w-1/2 sm:pl-[1em] flex mb-[1em]"><input
-                  className='w-full border border-black'
+                  className='w-full border border-slate-300'
                   type="number"
                   value={priceRange.max}
                   onChange={(event: ChangeEvent<HTMLInputElement>) => onPriceRangeChange(event, 'max')}
@@ -157,9 +157,11 @@ export default function CarsPage(): JSX.Element {
                   <div><span style={{ color: '#555', fontSize: '0.8em' }}>Last Updated: 1 day ago</span></div>
                 </div>
               </div>
-              <div className="flex flex-row sm:flex-col justify-between sm:justify-start">
+              <div className="flex flex-row sm:flex-col justify-between sm:justify-start p-4">
                 <div className="" style={{ fontSize: '1.5em', fontWeight: 700 }}>$456.00</div>
-                <div className="px-2 py-1" style={{ fontSize: '0.85em', background: '#5dc302', color: 'white', borderRadius: '5px', textTransform: 'uppercase', fontWeight: '600' }}>View Details<i className="ms-1 fa fa-arrow-circle-right" aria-hidden="true"></i></div>
+                {/* <div className="px-2 py-1" style={{ fontSize: '0.85em', background: '#5dc302', color: 'white', borderRadius: '5px', textTransform: 'uppercase', fontWeight: '600' }}>View Details<i className="ms-1 fa fa-arrow-circle-right" aria-hidden="true"></i></div> */}
+                <div className="transform hover:scale-[1.025] hover:bg-gray-50 transition duration-[200ms] px-2 py-1 bg-gray-100 shadow-inner rounded-md p-4 font-semibold select-none cursor-pointer" style={{ boxShadow: '5px 5px 5px 0px #bebebe, -5px -5px 5px 0px #ffffff' }}><span className="mr-[0.5em]">View Details</span><i className="ms-1 fa fa-arrow-circle-right" aria-hidden="true"></i></div>
+              
               </div>
             </div>
           </div>
